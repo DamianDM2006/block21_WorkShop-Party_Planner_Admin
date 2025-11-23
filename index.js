@@ -168,11 +168,18 @@ const newPartyForm = () => {
       `;
   $partyForm.addEventListener(`submit`, async (event) => {
     event.preventDefault();
+
     const inputData = new FormData($partyForm);
+
+    const inDate = inputData.get("date");
+    const inTime = inputData.get("time");
+    const formattedDate = `${inDate}T${inTime}`;
+    console.log(formattedDate);
+
     addParty({
       name: inputData.get("name"),
       description: inputData.get("description"),
-      date: inputData.get("date"),
+      date: formattedDate,
       location: inputData.get("location"),
     });
     console.log(inputData);
