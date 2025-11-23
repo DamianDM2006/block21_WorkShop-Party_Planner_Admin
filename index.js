@@ -60,6 +60,11 @@ async function getGuests() {
 /** FUNCTION:  Add a Party */
 const addParty = async () => {
   try {
+    await fetch(API, {
+      method: `POST`,
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(party),
+    });
 
   } catch (e) {
     console.error(e);
@@ -127,7 +132,43 @@ function SelectedParty() {
   return $party;
 }
 
-
+/** FORM COMPENENT ==== */
+  const newPartyForm = () => {
+    const $partyForm = document.createElement("form");
+    $partyForm.innerHTML = `
+    <label>
+      Name
+      <input name="name" required />
+    </label>
+    <label>
+      Description
+      <input name="description" required />
+    </label>
+    <label>
+      Date
+      <input name="date" required />
+    </label>
+    <label>
+      Location
+      <input name="location" required />
+    </label>
+      `;
+    $partyForm.addEventListener(`submit`, async (event) => {
+      event.preventDefault();
+      const inputData = new FormData($partyForm);
+      addParty({
+        name: inputData.get("name"),
+        description: inputData.get("description"),
+        date: inputData.get("date"),
+        location: inputData.get("location"),
+      });
+      console.log(inputData);
+    })
+      console.log($partyForm);
+      return $partyForm;
+    }
+    
+    
 /** List of guests attending the selected party */
 function GuestList() {
   const $ul = document.createElement("ul");
@@ -162,11 +203,13 @@ function render() {
         <h2>Party Details</h2>
         <SelectedParty></SelectedParty>
       </section>
+      <UpdateParty></UpdateParty>
     </main>
   `;
 
   $app.querySelector("PartyList").replaceWith(PartyList());
   $app.querySelector("SelectedParty").replaceWith(SelectedParty());
+  $app.querySelector("UpdateParty").replaceWith(newPartyForm());
 }
 
 async function init() {
