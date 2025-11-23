@@ -1,6 +1,6 @@
 // === Constants ===
 const BASE = "https://fsa-crud-2aa9294fe819.herokuapp.com/api";
-const COHORT = ""; // Make sure to change this!
+const COHORT = "/2510-FTB-CT-WEB-PT"; // Make sure to change this!
 const API = BASE + COHORT;
 
 // === State ===
@@ -57,6 +57,25 @@ async function getGuests() {
   }
 }
 
+/** FUNCTION:  Add a Party */
+const addParty = async () => {
+  try {
+
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+
+/** FUNCTION:  Remove a Party */
+const removeParty = async () => {
+  try {
+
+  } catch (e) {
+    console.error(e);
+  }
+}
+
 // === Components ===
 
 /** Party name that shows more details about the party when clicked */
@@ -107,6 +126,7 @@ function SelectedParty() {
 
   return $party;
 }
+
 
 /** List of guests attending the selected party */
 function GuestList() {
