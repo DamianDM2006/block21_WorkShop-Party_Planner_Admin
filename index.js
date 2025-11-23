@@ -58,9 +58,9 @@ async function getGuests() {
 }
 
 /** FUNCTION:  Add a Party */
-const addParty = async () => {
+const addParty = async (party) => {
   try {
-    await fetch(API, {
+    await fetch(API = "/events", {
       method: `POST`,
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(party),
@@ -152,6 +152,7 @@ function SelectedParty() {
       Location
       <input name="location" required />
     </label>
+    <button>Add Party</button>
       `;
     $partyForm.addEventListener(`submit`, async (event) => {
       event.preventDefault();
@@ -164,7 +165,7 @@ function SelectedParty() {
       });
       console.log(inputData);
     })
-      console.log($partyForm);
+      console.log($partyForm.value);
       return $partyForm;
     }
     
