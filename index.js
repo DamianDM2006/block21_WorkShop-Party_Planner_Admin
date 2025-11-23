@@ -60,26 +60,23 @@ async function getGuests() {
 /** FUNCTION:  Add a Party */
 const addParty = async (party) => {
   try {
-    await fetch(API = "/events", {
+    await fetch((API = "/events"), {
       method: `POST`,
-      headers: {'Content-Type': 'application/json'},
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(party),
     });
-
   } catch (e) {
     console.error(e);
   }
-}
-
+};
 
 /** FUNCTION:  Remove a Party */
 const removeParty = async () => {
   try {
-
   } catch (e) {
     console.error(e);
   }
-}
+};
 
 // === Components ===
 
@@ -133,43 +130,56 @@ function SelectedParty() {
 }
 
 /** FORM COMPENENT ==== */
-  const newPartyForm = () => {
-    const $partyForm = document.createElement("form");
-    $partyForm.innerHTML = `
+const newPartyForm = () => {
+  const $partyForm = document.createElement("form");
+  $partyForm.innerHTML = `
     <label>
       Name
       <input name="name" required />
     </label>
     <label>
       Description
-      <input name="description" required />
+      <input
+        name="description"
+        value="Testing in progress"
+        required />
     </label>
     <label>
-      Date
-      <input name="date" required />
+      Date of the Event
+      <input
+        name="date"
+        type="date"
+        required />
     </label>
+    <label>
+      Time of the Event
+      <input
+        name="time"
+        type="time"
+        required
     <label>
       Location
-      <input name="location" required />
+      <input
+        name="location"
+        value="Between here and there"
+        required />
     </label>
     <button>Add Party</button>
       `;
-    $partyForm.addEventListener(`submit`, async (event) => {
-      event.preventDefault();
-      const inputData = new FormData($partyForm);
-      addParty({
-        name: inputData.get("name"),
-        description: inputData.get("description"),
-        date: inputData.get("date"),
-        location: inputData.get("location"),
-      });
-      console.log(inputData);
-    })
-      console.log($partyForm.value);
-      return $partyForm;
-    }
-    
-    
+  $partyForm.addEventListener(`submit`, async (event) => {
+    event.preventDefault();
+    const inputData = new FormData($partyForm);
+    addParty({
+      name: inputData.get("name"),
+      description: inputData.get("description"),
+      date: inputData.get("date"),
+      location: inputData.get("location"),
+    });
+    console.log(inputData);
+  });
+  return $partyForm;
+};
+
 /** List of guests attending the selected party */
 function GuestList() {
   const $ul = document.createElement("ul");
