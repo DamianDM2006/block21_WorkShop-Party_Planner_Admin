@@ -71,8 +71,11 @@ const addParty = async (party) => {
 };
 
 /** FUNCTION:  Remove a Party */
-const removeParty = async () => {
+const removeParty = async (id) => {
   try {
+    await fetch(API + "/" + id, { method: "DELETE" });
+    SelectedParty = undefined;
+    await getParties();
   } catch (e) {
     console.error(e);
   }
@@ -122,9 +125,12 @@ function SelectedParty() {
     </time>
     <address>${selectedParty.location}</address>
     <p>${selectedParty.description}</p>
+    <button>Remove Party</button>
     <GuestList></GuestList>
   `;
   $party.querySelector("GuestList").replaceWith(GuestList());
+  const $removeParty = $party.querySelector("button");
+  $removeParty.addEventListener("click", () => removeParty(selectedParty.id));
 
   return $party;
 }
@@ -173,8 +179,8 @@ const newPartyForm = () => {
 
     const inDate = inputData.get("date");
     const inTime = inputData.get("time");
-    const formattedDate = `${inDate}T${inTime}`;
-    console.log(formattedDate);
+    const formattedDate = [`${inDate}T${inTime}`];
+    // console.log(formattedDate);
 
     addParty({
       name: inputData.get("name"),
