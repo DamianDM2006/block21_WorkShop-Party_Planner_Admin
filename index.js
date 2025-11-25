@@ -58,23 +58,25 @@ async function getGuests() {
 }
 
 /** FUNCTION:  Add a Party */
-const addParty = async (party) => {
+const addParty = async (inputObj) => {
   try {
-    await fetch((API = "/events"), {
+    await fetch(API + "/events", {
       method: `POST`,
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(party),
+      body: JSON.stringify(inputObj),
     });
   } catch (e) {
     console.error(e);
   }
+  getParties();
 };
 
 /** FUNCTION:  Remove a Party */
 const removeParty = async (id) => {
   try {
-    await fetch(API + "/" + id, { method: "DELETE" });
-    SelectedParty = undefined;
+    console.log(`id in removeParty`, id);
+    await fetch(API + "/events/" + id, { method: "DELETE" });
+    selectedParty = undefined;
     await getParties();
   } catch (e) {
     console.error(e);
@@ -131,7 +133,6 @@ function SelectedParty() {
   $party.querySelector("GuestList").replaceWith(GuestList());
   const $removeParty = $party.querySelector("button");
   $removeParty.addEventListener("click", () => removeParty(selectedParty.id));
-
   return $party;
 }
 
@@ -175,20 +176,18 @@ const newPartyForm = () => {
   $partyForm.addEventListener(`submit`, async (event) => {
     event.preventDefault();
 
-    const inputData = new FormData($partyForm);
+    const inputNodeData = document.querySelectorAll(`input`);
+    const inputData = [...inputNodeData];
 
-    const inDate = inputData.get("date");
-    const inTime = inputData.get("time");
-    const formattedDate = [`${inDate}T${inTime}`];
-    // console.log(formattedDate);
+    const formattedDate = `${inputData[2].value}T${inputData[3].value}:00.000Z`;
 
-    addParty({
-      name: inputData.get("name"),
-      description: inputData.get("description"),
+    const inputObj = {
+      name: inputData[0].value,
+      description: inputData[1].value,
       date: formattedDate,
-      location: inputData.get("location"),
-    });
-    console.log(inputData);
+      location: inputData[4].value,
+    };
+    addParty(inputObj);
   });
   return $partyForm;
 };
